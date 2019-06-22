@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>ajax | 風</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用XMLHttpRequest对象的open（）和send方法 Ajax实现过程  通常是  第一步:Javascript监听浏览器网页事件(点击,提交,更改等)   第二步:由javascript创建Ajax引擎对象   第三步:通过Ajax引擎对象发出请求   第四步:Ajax引擎等待并且接受服务器的响应内容   第五步:javascript再从 Ajax引擎对象 中获取响应内容,">
+<meta name="keywords" content="JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ajax">
+<meta property="og:url" content="http://yoursite.com/2018/05/05/ajax/index.html">
+<meta property="og:site_name" content="風">
+<meta property="og:description" content="使用XMLHttpRequest对象的open（）和send方法 Ajax实现过程  通常是  第一步:Javascript监听浏览器网页事件(点击,提交,更改等)   第二步:由javascript创建Ajax引擎对象   第三步:通过Ajax引擎对象发出请求   第四步:Ajax引擎等待并且接受服务器的响应内容   第五步:javascript再从 Ajax引擎对象 中获取响应内容,">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-05T12:22:51.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ajax">
+<meta name="twitter:description" content="使用XMLHttpRequest对象的open（）和send方法 Ajax实现过程  通常是  第一步:Javascript监听浏览器网页事件(点击,提交,更改等)   第二步:由javascript创建Ajax引擎对象   第三步:通过Ajax引擎对象发出请求   第四步:Ajax引擎等待并且接受服务器的响应内容   第五步:javascript再从 Ajax引擎对象 中获取响应内容,">
+  
+    <link rel="alternate" href="/atom.xml" title="風" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">風</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ajax" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/05/ajax/" class="article-date">
+  <time datetime="2018-05-05T11:36:11.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ajax
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="使用XMLHttpRequest对象的open（）和send方法"><a href="#使用XMLHttpRequest对象的open（）和send方法" class="headerlink" title="使用XMLHttpRequest对象的open（）和send方法"></a>使用XMLHttpRequest对象的open（）和send方法</h2><blockquote>
+<p>Ajax实现过程</p>
+</blockquote>
+<p>通常是</p>
+<blockquote>
+<p>第一步:Javascript监听浏览器网页事件(点击,提交,更改等)</p>
+</blockquote>
+<blockquote>
+<p>第二步:由javascript创建Ajax引擎对象</p>
+</blockquote>
+<blockquote>
+<p>第三步:通过Ajax引擎对象发出请求</p>
+</blockquote>
+<blockquote>
+<p>第四步:Ajax引擎等待并且接受服务器的响应内容</p>
+</blockquote>
+<blockquote>
+<p>第五步:javascript再从 <em>Ajax引擎对象</em> 中获取响应内容,<br>      并且通过dom改变网页界面显示效果</p>
+<ul>
+<li>1.创建Ajax引擎对象<br>就是XMLHtttpRequest对象,所有现代浏览器均支持XMLHttpRequest对象</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>(IE5 和 IE6 使用 ActiveXObject)它同时也是一个Javascript对象.<br>Ajax引擎(XMLHttpRequest)</p>
+<ul>
+<li>兼容处理</li>
+</ul>
+</blockquote>
+<p>(<code>)
+  var xhr = null;
+ if (window.XMLHttpRequest) {
+    //所有现代浏览器(IE7+.Firefox.Chrome.Safari以及opera)
+    xhr = new XMLHttpRequest;
+}else{
+    //老版本的Internet Explorer使用ActiveX对象
+    xhr = new ActiveXObject(&quot;Microsoft.XMLHttp&quot;);
+}
+(</code>)</p>
+<ul>
+<li>2.配置请求对象的信息<blockquote>
+<p>xhr.open(‘GET/POST’,’url地址’,[‘是否异步’]);</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>注意：如果使用post请求,就一定要设置请求头<br>xhr.setRequestHeader(“Content-Type”,”application/x-www-form-urlencoded;     charset=gb2312”);</p>
+<ul>
+<li>3.发送请求<br>xhr.send([post请求参数字符串]);<br>发送请求分为两种情况:<br>1.监控用户的事件(onclick,onchange等),通过ajax发送请求<br>2.监控浏览器的事件(onload),通过ajax发送请求.</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>4.监听Ajax引擎对象的改变(是否正确做出了响应)<br>(```)<br>xmlHttpRequest.onreadystatechange = function(){<br>  if (xmlHttpRequest.readyState== 4 &amp;&amp; xmlHttpRequest==200) {</p>
+<pre><code>//xmlHttpRequest.responseText
+//xmlHttpRequest.responseText</code></pre><p>  }<br>}
+(```)</p>
+</li>
+<li><p>详解Ajax引擎的状态属性 readyState(0 1 2 3 4)</p>
+<blockquote>
+<p>0.请求未初始化<br>1.服务器连接已建立<br>2.请求已接收<br>3.请求处理中<br>4.请求已完成,并且响应已就绪<br>当Ajax引擎的状态属性为readyState为4时,说明服务器的响应已经发送给Ajax请求了.</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>但是响应的状态吗为200时:说明响应的内容是正确的,这时才会根据相应内容对当前页面的html处理</p>
+</blockquote>
+<ul>
+<li>总结：<br>基本示例：<br>(```)<br>var xhr = new XMLHttpRequest;<br>xhr.open(‘GET/POST’,’url地址’,[‘是否异步’]);<br>xhr.send([post请求参数字符串]);<br>xhr.onreadystatechange = function(){<br>  if (xmlHttpRequest.readyState== 4 &amp;&amp; xmlHttpRequest==200) {<pre><code>//做一些事情
+//xhr.responseText</code></pre>  }<br>}
+(```)</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/05/ajax/" data-id="cjx78m1zc000120b3fcamc0yo" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/">JS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/22/生命周期/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          生命周期
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JS/">JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js-生命周期/">Vue.js-生命周期</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JS/" style="font-size: 10px;">JS</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/Vue-js-生命周期/" style="font-size: 10px;">Vue.js-生命周期</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/06/05/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/22/生命周期/">生命周期</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/05/ajax/">ajax</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
